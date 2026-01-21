@@ -1,5 +1,4 @@
 import pool from '../helpers/databaseConnection.js';
-import {logger} from '../helpers/logger.js';
 import { queryBuilders } from '../helpers/queryBuilder.js';
 
 const getPublishers = async(res) => {
@@ -8,45 +7,37 @@ const getPublishers = async(res) => {
         return response.rows;
     }
     catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
+        throw error
     }
 }
 
-const updatePublishers = async(res, opt) => {
+const updatePublishers = async(req) => {
     try{
-        const queryElement = queryBuilders.generalUpdateQueryBuilder(opt?.updateItems)
-        const response = await pool.query(`UPDATE publishers 
-                                            SET ${queryElement}
-                                            WHERE id=${opt?.publisherId} `);
-        return res.status(200).send("Publisher record updated successfully");
+        const {query, values} = queryBuilders.generalUpdateQueryBuilder('publishers', req.body)
+        return await pool.query(query, values);
     }
     catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
+        throw error
     }
 }
 
-const createPublishers = async(res, opt) => {
+const createPublishers = async(req) => {
     try{
-        const queryElement = queryBuilders.generalCreateQueryBuilder(opt?.createItems)
-        const response = await pool.query(`INSERT INTO publishers 
-                                            ${queryElement}`);
-        return res.status(200).send("Publisher record created successfully");
+        const { query, values } = queryBuilders.generalCreateQueryBuilder('publishers', req.body)
+        return await pool.query(query, values);
     }
     catch(error){
-        throw new Error('Creating publisher failed')
+        throw error
     }
 }
 
 const deletePublishers = async(req, res) => {
     try{
-        const response = await pool.query(`DELETE FROM publishers
-                                            WHERE id=${opt?.publisherId}`);
-        return 'Publisher record deleted successfully';
+        return await pool.query(`DELETE FROM publishers
+                                WHERE id=${opt?.publisherId}`);
     }
     catch(error){
-        throw new Error('Deleting Publisher Failed')
+        throw error
     }
 }
 
@@ -56,12 +47,11 @@ const createPublisherTable = async() => {
                     (id SERIAL PRIMARY KEY,
                     name VARCHAR (50) UNIQUE NOT NULL,
                     api_url VARCHAR (250) NOT NULL,
-                    created_at TIMESTAMP NOT NULL
+                    created_at TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP)
                     )`
-        await pool.query(query);
-        return true
+        return await pool.query(query);
     }catch(error){
-        logger.error(error)
+        throw error
     }
 }
 

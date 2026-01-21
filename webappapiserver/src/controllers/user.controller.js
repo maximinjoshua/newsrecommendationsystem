@@ -14,7 +14,7 @@ const getUsers = async (req, res) => {
 
 const createUsers = async (req, res) => {
     try{
-        const response = await userService.createUsers()
+        const response = await userService.createUsers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -25,7 +25,7 @@ const createUsers = async (req, res) => {
 
 const updateUsers = async (req, res) => {
     try{
-        const response = await userService.updateUsers()
+        const response = await userService.updateUsers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -36,7 +36,7 @@ const updateUsers = async (req, res) => {
 
 const deleteUsers = async (req, res) => {
     try{
-        const response = await userService.deleteUsers()
+        const response = await userService.deleteUsers(req)
         return res.status(200).send(response)
     }
     catch(error){

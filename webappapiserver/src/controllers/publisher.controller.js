@@ -14,7 +14,7 @@ const getPublishers = async (req, res) => {
 
 const createPublishers = async (req, res) => {
     try{
-        const response = await publisherService.createPublishers()
+        const response = await publisherService.createPublishers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -25,7 +25,7 @@ const createPublishers = async (req, res) => {
 
 const updatePublishers = async (req, res) => {
     try{
-        const response = await publisherService.updatePublishers()
+        const response = await publisherService.updatePublishers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -36,7 +36,7 @@ const updatePublishers = async (req, res) => {
 
 const deletePublishers = async (req, res) => {
     try{
-        const response = await publisherService.deletePublishers()
+        const response = await publisherService.deletePublishers(req)
         return res.status(200).send(response)
     }
     catch(error){

@@ -1,4 +1,3 @@
-import {logger} from '../helpers/logger.js';
 import pool from '../helpers/databaseConnection.js';
 
 const getUsers = async(res) => {
@@ -7,8 +6,37 @@ const getUsers = async(res) => {
         return response.rows;
     }
     catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
+        throw error
+    }
+}
+
+const updateUsers = async(req) => {
+    try{
+        const {query, values} = queryBuilders.generalUpdateQueryBuilder('users', req.body)
+        return await pool.query(query, values);
+    }
+    catch(error){
+        throw error
+    }
+}
+
+const createUsers = async(req) => {
+    try{
+        const { query, values } = queryBuilders.generalCreateQueryBuilder('users', req.body)
+        return await pool.query(query, values);
+    }
+    catch(error){
+        throw error
+    }
+}
+
+const deleteUsers = async(req, res) => {
+    try{
+        return await pool.query(`DELETE FROM users
+                                WHERE id=${opt?.userId}`);
+    }
+    catch(error){
+        throw error
     }
 }
 
@@ -22,12 +50,10 @@ const createUserTable = async(res) => {
                     created_at TIMESTAMP NOT NULL,
                     last_login TIMESTAMP
                     )`
-        await pool.query(query);
-        res.status(200).send('Table created successfully')
+        return await pool.query(query);
     }catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
+        throw error
     }
 }
 
-export const userService = { getUsers, createUserTable }
+export const userService = { getUsers, createUsers, updateUsers, deleteUsers, createUserTable }
