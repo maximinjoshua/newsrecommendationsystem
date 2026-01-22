@@ -30,10 +30,10 @@ const createUsers = async(req) => {
     }
 }
 
-const deleteUsers = async(req, res) => {
+const deleteUsers = async(req) => {
     try{
         return await pool.query(`DELETE FROM users
-                                WHERE id=${opt?.userId}`);
+                                WHERE id=${req.body.id}`);
     }
     catch(error){
         throw error

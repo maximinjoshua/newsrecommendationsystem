@@ -1,7 +1,7 @@
 import pool from '../helpers/databaseConnection.js';
 import { queryBuilders } from '../helpers/queryBuilder.js';
 
-const getPublishers = async(res) => {
+const getPublishers = async(req) => {
     try{
         const response = await pool.query('SELECT * FROM publishers');
         return response.rows;
@@ -31,10 +31,10 @@ const createPublishers = async(req) => {
     }
 }
 
-const deletePublishers = async(req, res) => {
+const deletePublishers = async(req) => {
     try{
         return await pool.query(`DELETE FROM publishers
-                                WHERE id=${opt?.publisherId}`);
+                                WHERE id=${req.body.id}`);
     }
     catch(error){
         throw error
