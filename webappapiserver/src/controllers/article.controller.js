@@ -23,6 +23,17 @@ const createArticles = async (req, res) => {
     }
 }
 
+const createBatchArticles = async (req, res) => {
+    try{
+        const response = await articleService.createBatchArticles(req)
+        return res.status(200).send(response)
+    }
+    catch(error){
+        logger.error(error)
+        return res.status(500).send('Internal Server Error')
+    }
+}
+
 const updateArticles = async (req, res) => {
     try{
         const response = await articleService.updateArticles(req)
@@ -57,5 +68,5 @@ const createArticleTable = async (req, res) => {
 }
 
 export const articleController = { getArticles, createArticles, updateArticles,
-    deleteArticles, createArticleTable
+    deleteArticles, createArticleTable, createBatchArticles
  }

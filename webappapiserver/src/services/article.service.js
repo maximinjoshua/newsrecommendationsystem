@@ -31,10 +31,23 @@ const createArticles = async(req) => {
     }
 }
 
+const createBatchArticles = async(req) => {
+    try{
+        const insertDataArray = req.body.insertData
+        const { query, valueArray } = queryBuilders.generalBatchCreateQueryBuilder('articles', insertDataArray)
+        console.log(valueArray, "values")
+        return await pool.query(query, valueArray);
+    }
+    catch(error){
+        throw error
+    }
+}
+
 const deleteArticles = async(req) => {
     try{
+        const params = req.params
         return await pool.query(`DELETE FROM articles
-                                WHERE id=${req.body.id}`);
+                                WHERE id=${params.id}`);
     }
     catch(error){
         throw error
@@ -62,4 +75,6 @@ const createArticleTable = async() => {
     }
 }
 
-export const articleService = { getArticles, updateArticles, createArticles, deleteArticles, createArticleTable }
+export const articleService = { getArticles, updateArticles, createArticles, deleteArticles, createArticleTable,
+    createBatchArticles
+ }

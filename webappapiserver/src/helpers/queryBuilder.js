@@ -26,9 +26,39 @@ const generalCreateQueryBuilder = (tableName, queryObject) => {
     const query = `
         INSERT INTO ${tableName} (${columns.join(', ')})
         VALUES (${placeholders})
-        RETURNING *
     `;
     return { query, values }
 }
 
-export const queryBuilders = {generalUpdateQueryBuilder, generalCreateQueryBuilder}
+const generalBatchCreateQueryBuilder = (tableName, rows) => {
+
+  const columns = Object.keys(rows[0]);
+
+  const valueStrings = [];
+  const valueArray = [];
+  let placeholderCount = 1;
+
+  for (const row of rows) {
+
+    const placeholders = columns
+      .map(() => `$${placeholderCount++}`)
+      .join(", ");
+
+    valueStrings.push(`(${placeholders})`);
+
+    // push instead of spread
+    for (const col of columns) {
+      valueArray.push(row[col]);
+    }
+  }
+
+  const query = `
+    INSERT INTO ${tableName} (${columns.join(", ")})
+    VALUES ${valueStrings.join(", ")}
+  `;
+
+  return { query, valueArray };
+};
+
+
+export const queryBuilders = { generalUpdateQueryBuilder, generalCreateQueryBuilder, generalBatchCreateQueryBuilder }
