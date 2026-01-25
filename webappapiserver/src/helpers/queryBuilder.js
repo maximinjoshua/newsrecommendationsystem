@@ -30,30 +30,33 @@ const generalCreateQueryBuilder = (tableName, queryObject) => {
     return { query, values }
 }
 
-const generalBatchCreateQueryBuilder = (tableName, rows) => {
+const generalBatchCreateQueryBuilder = (tableName, rows, customAddColumns={}) => {
 
-  const columns = Object.keys(rows[0]);
+  const originalColumns = Object.keys(rows[0]);
+  const updatedColumns = [...originalColumns, ...Object.keys(customAddColumns)]
 
   const valueStrings = [];
   const valueArray = [];
   let placeholderCount = 1;
 
   for (const row of rows) {
-
-    const placeholders = columns
+    const placeholders = updatedColumns
       .map(() => `$${placeholderCount++}`)
       .join(", ");
 
     valueStrings.push(`(${placeholders})`);
 
-    // push instead of spread
-    for (const col of columns) {
+    for (const col of originalColumns) {
       valueArray.push(row[col]);
     }
+    for (const val of Object.values(customAddColumns)){
+      valueArray.push(val)
+    }
+
   }
 
   const query = `
-    INSERT INTO ${tableName} (${columns.join(", ")})
+    INSERT INTO ${tableName} (${updatedColumns.join(", ")})
     VALUES ${valueStrings.join(", ")}
   `;
 

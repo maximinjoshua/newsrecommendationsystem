@@ -35,7 +35,16 @@ const createBatchArticles = async(req) => {
     try{
         const insertDataArray = req.body.insertData
         const { query, valueArray } = queryBuilders.generalBatchCreateQueryBuilder('articles', insertDataArray)
-        console.log(valueArray, "values")
+        return await pool.query(query, valueArray);
+    }
+    catch(error){
+        throw error
+    }
+}
+
+const createBatchArticlesForInternalApi = async(callResponse, publisherId) => {
+    try{
+        const { query, valueArray } = queryBuilders.generalBatchCreateQueryBuilder('articles', callResponse.data, {'publisher_id': publisherId})
         return await pool.query(query, valueArray);
     }
     catch(error){
@@ -59,10 +68,11 @@ const createArticleTable = async() => {
         const query = `CREATE TABLE IF NOT EXISTS articles 
                     (id SERIAL PRIMARY KEY,
                     publisher_id INT NOT NULL,
-                    headline VARCHAR (250) NOT NULL,
+                    link VARCHAR (3000) NOT NULL,
+                    headline VARCHAR (1000) NOT NULL,
                     category VARCHAR (50) NOT NULL,
-                    short_description VARCHAR (1000) NOT NULL,
-                    authors VARCHAR (250),
+                    short_description VARCHAR (5000) NOT NULL,
+                    authors VARCHAR (1000),
                     date DATE NOT NULL,
                     created_at TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP),
                     CONSTRAINT fk_publisher 
@@ -76,5 +86,5 @@ const createArticleTable = async() => {
 }
 
 export const articleService = { getArticles, updateArticles, createArticles, deleteArticles, createArticleTable,
-    createBatchArticles
+    createBatchArticles, createBatchArticlesForInternalApi
  }
