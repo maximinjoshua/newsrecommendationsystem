@@ -4,7 +4,7 @@
 
 import express from 'express'
 import router from './routes/index.js'
-import './cronjobs/index.js'
+import './cronjobs/index.cron.js'
 
 const app = express()
 const port = 3000

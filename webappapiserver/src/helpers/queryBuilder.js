@@ -15,7 +15,7 @@ const generalUpdateQueryBuilder = (tableName, queryObject) => {
     return { query, values }
 }
 
-const generalCreateQueryBuilder = (tableName, queryObject) => {
+const generalCreateQueryBuilder = (tableName, queryObject, returnValues=[]) => {
     const columns = Object.keys(queryObject);
     const values = Object.values(queryObject);
 
@@ -26,6 +26,7 @@ const generalCreateQueryBuilder = (tableName, queryObject) => {
     const query = `
         INSERT INTO ${tableName} (${columns.join(', ')})
         VALUES (${placeholders})
+        RETURNING ${returnValues? returnValues.join(', '): 'null as id'}
     `;
     return { query, values }
 }

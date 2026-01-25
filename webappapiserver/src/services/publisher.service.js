@@ -1,5 +1,6 @@
 import pool from '../helpers/databaseConnection.js';
 import { queryBuilders } from '../helpers/queryBuilder.js';
+import { createKafkaTopic } from '../kafkafunctions/index.js';
 
 const getPublishers = async(req) => {
     try{
@@ -23,10 +24,20 @@ const updatePublishers = async(req) => {
 
 const createPublishers = async(req) => {
     try{
-        const { query, values } = queryBuilders.generalCreateQueryBuilder('publishers', req.body)
-        return await pool.query(query, values);
+        await pool.query('BEGIN')
+        const { query, values } = queryBuilders.generalCreateQueryBuilder('publishers', req.body, ['api_url'])
+        const dbResponse = await pool.query(query, values)
+
+        // create topic for the publisher in kafka
+        const cleadedApiUrl = dbResponse.rows[0].api_url.replace(/[^a-zA-Z0-9]/g, '') //remove all slashes and other characters
+        const topicConfigs = [{ topic: cleadedApiUrl}]
+        const otherConfigs = {}
+        await createKafkaTopic(topicConfigs, otherConfigs)
+
+        return await pool.query('COMMIT')
     }
     catch(error){
+        await pool.query('ROLLBACK')
         throw error
     }
 }
