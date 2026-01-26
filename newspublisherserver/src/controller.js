@@ -15,7 +15,6 @@ const pool = new Pool({
 export const fetchArticlesFromPublisher = async (req, res) => {
     try {
         const response = await pool.query(`SELECT link, headline, category, short_description, authors, date FROM articles WHERE date='${String(req.params.date)}'`)
-        console.log(response.rows)
         return res.status(200).send(response.rows)
     }
     catch (error) {

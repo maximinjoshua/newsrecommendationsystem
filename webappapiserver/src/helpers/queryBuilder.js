@@ -31,7 +31,7 @@ const generalCreateQueryBuilder = (tableName, queryObject, returnValues=[]) => {
     return { query, values }
 }
 
-const generalBatchCreateQueryBuilder = (tableName, rows, customAddColumns={}) => {
+const generalBatchCreateQueryBuilder = (tableName, rows, returnValues=[], customAddColumns={}) => {
 
   const originalColumns = Object.keys(rows[0]);
   const updatedColumns = [...originalColumns, ...Object.keys(customAddColumns)]
@@ -59,6 +59,7 @@ const generalBatchCreateQueryBuilder = (tableName, rows, customAddColumns={}) =>
   const query = `
     INSERT INTO ${tableName} (${updatedColumns.join(", ")})
     VALUES ${valueStrings.join(", ")}
+    RETURNING ${returnValues? returnValues.join(', '): 'null as id'}
   `;
 
   return { query, valueArray };

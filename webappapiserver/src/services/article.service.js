@@ -1,5 +1,6 @@
 import pool from '../helpers/databaseConnection.js';
 import { queryBuilders } from '../helpers/queryBuilder.js';
+import { publishToTopic } from '../kafkafunctions/index.js';
 
 const getArticles = async(req) => {
     try{
@@ -42,12 +43,25 @@ const createBatchArticles = async(req) => {
     }
 }
 
-const createBatchArticlesForInternalApi = async(callResponse, publisherId) => {
+const createBatchArticlesForInternalApi = async(callResponse, publisherRecord) => {
     try{
-        const { query, valueArray } = queryBuilders.generalBatchCreateQueryBuilder('articles', callResponse.data, {'publisher_id': publisherId})
-        return await pool.query(query, valueArray);
+        await pool.query('BEGIN')
+        const returnValues = ['id', 'publisher_id', 'link', 'headline', 
+            'category', 'short_description', 'authors', 'date', 'created_at'
+        ]
+        const { query, valueArray } = queryBuilders.generalBatchCreateQueryBuilder('articles', callResponse.data, returnValues, {'publisher_id': publisherRecord.id})
+        const dbResponse = await pool.query(query, valueArray);
+
+        const cleanedApiUrl = publisherRecord.api_url.replace(/[^a-zA-Z0-9]/g, '') //remove all slashes and other characters
+        for (const row of dbResponse.rows){
+            await publishToTopic(cleanedApiUrl, row)
+        }
+        
+        await pool.query('COMMIT')
+        return true
     }
     catch(error){
+        await pool.query('ROLLBACK')
         throw error
     }
 }

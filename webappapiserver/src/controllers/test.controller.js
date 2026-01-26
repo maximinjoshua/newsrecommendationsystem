@@ -1,4 +1,5 @@
 import { callPublisherForArticles } from "../externalapicalls/callPublishers.js"
+import { logger } from "../helpers/logger.js"
 
 
 const testGetArticlesFromApiCron = async (req, res) => {
