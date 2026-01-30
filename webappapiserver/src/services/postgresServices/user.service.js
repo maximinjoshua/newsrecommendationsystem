@@ -1,4 +1,4 @@
-import pool from '../helpers/databaseConnection.js';
+import pool from '../../helpers/databaseConnection.js';
 
 const getUsers = async(res) => {
     try{

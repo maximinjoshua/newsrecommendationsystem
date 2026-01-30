@@ -1,9 +1,9 @@
 import {logger} from "../helpers/logger.js"
-import { publisherService } from "../services/publisher.service.js"
+import service from "../services/index.js"
 
 const getPublishers = async (req, res) => {
     try{
-        const response = await publisherService.getPublishers()
+        const response = await service.publisherService.getPublishers()
         return res.status(200).send(response)
     }
     catch(error){
@@ -14,7 +14,7 @@ const getPublishers = async (req, res) => {
 
 const createPublishers = async (req, res) => {
     try{
-        const response = await publisherService.createPublishers(req)
+        const response = await service.publisherService.createPublishers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -25,7 +25,7 @@ const createPublishers = async (req, res) => {
 
 const updatePublishers = async (req, res) => {
     try{
-        const response = await publisherService.updatePublishers(req)
+        const response = await service.publisherService.updatePublishers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -36,7 +36,7 @@ const updatePublishers = async (req, res) => {
 
 const deletePublishers = async (req, res) => {
     try{
-        const response = await publisherService.deletePublishers(req)
+        const response = await service.publisherService.deletePublishers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -47,7 +47,7 @@ const deletePublishers = async (req, res) => {
 
 const createPublisherTable = async (req, res) => {
     try{
-        const response = await publisherService.createPublisherTable()
+        const response = await service.publisherService.createPublisherTable()
         return res.status(200).send(response)
     }
     catch(error){

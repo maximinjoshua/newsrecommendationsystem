@@ -1,6 +1,6 @@
-import pool from '../helpers/databaseConnection.js';
-import { queryBuilders } from '../helpers/queryBuilder.js';
-import { publishToTopic } from '../kafkafunctions/index.js';
+import pool from '../../helpers/databaseConnection.js';
+import { queryBuilders } from '../../helpers/postgresQueryBuilder.js';
+import { publishToTopic } from '../../kafkafunctions/index.js';
 
 const getArticles = async(req) => {
     try{

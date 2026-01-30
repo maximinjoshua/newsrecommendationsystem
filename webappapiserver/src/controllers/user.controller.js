@@ -1,9 +1,9 @@
 import {logger} from "../helpers/logger.js"
-import {userService} from "../services/user.service.js"
+import service from "../services/index.js"
 
 const getUsers = async (req, res) => {
     try{
-        const response = await userService.getUsers()
+        const response = await service.UserService.getUsers()
         return res.status(200).send(response)
     }
     catch(error){
@@ -14,7 +14,7 @@ const getUsers = async (req, res) => {
 
 const createUsers = async (req, res) => {
     try{
-        const response = await userService.createUsers(req)
+        const response = await service.userService.createUsers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -25,7 +25,7 @@ const createUsers = async (req, res) => {
 
 const updateUsers = async (req, res) => {
     try{
-        const response = await userService.updateUsers(req)
+        const response = await service.userService.updateUsers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -36,7 +36,7 @@ const updateUsers = async (req, res) => {
 
 const deleteUsers = async (req, res) => {
     try{
-        const response = await userService.deleteUsers(req)
+        const response = await service.userService.deleteUsers(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -47,7 +47,7 @@ const deleteUsers = async (req, res) => {
 
 const createUserTable = async (req, res) => {
     try{
-        const response = await userService.createPublisherTable()
+        const response = await service.userService.createPublisherTable()
         return res.status(200).send(response)
     }
     catch(error){

@@ -1,3 +1,19 @@
-import { userService } from "./user.service";
+import { postgresService } from "./postgresServices/index.js";
 
-export const service = {userService}
+const dbType = process.env.CURRENT_DB || 'postgres';
+
+let service;
+
+switch (dbType) {
+  case 'postgres':
+    service = postgresService
+    break;
+  case 'milvus':
+    service = undefined
+    break
+  default:
+    service = postgresService;
+}
+
+export default service
+

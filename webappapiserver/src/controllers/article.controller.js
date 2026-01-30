@@ -1,9 +1,9 @@
 import {logger} from "../helpers/logger.js"
-import { articleService } from "../services/article.service.js"
+import service from "../services/index.js"
 
 const getArticles = async (req, res) => {
     try{
-        const response = await articleService.getArticles()
+        const response = await service.articleService.getArticles()
         return res.status(200).send(response)
     }
     catch(error){
@@ -14,7 +14,7 @@ const getArticles = async (req, res) => {
 
 const createArticles = async (req, res) => {
     try{
-        const response = await articleService.createArticles(req)
+        const response = await service.articleService.createArticles(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -25,7 +25,7 @@ const createArticles = async (req, res) => {
 
 const createBatchArticles = async (req, res) => {
     try{
-        const response = await articleService.createBatchArticles(req)
+        const response = await service.articleService.createBatchArticles(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -36,7 +36,7 @@ const createBatchArticles = async (req, res) => {
 
 const updateArticles = async (req, res) => {
     try{
-        const response = await articleService.updateArticles(req)
+        const response = await service.articleService.updateArticles(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -47,7 +47,7 @@ const updateArticles = async (req, res) => {
 
 const deleteArticles = async (req, res) => {
     try{
-        const response = await articleService.deleteArticles(req)
+        const response = await service.articleService.deleteArticles(req)
         return res.status(200).send(response)
     }
     catch(error){
@@ -58,7 +58,7 @@ const deleteArticles = async (req, res) => {
 
 const createArticleTable = async (req, res) => {
     try{
-        const response = await articleService.createArticleTable()
+        const response = await service.articleService.createArticleTable()
         return res.status(200).send(response)
     }
     catch(error){
