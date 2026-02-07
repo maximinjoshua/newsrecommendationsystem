@@ -52,9 +52,9 @@ const createBatchArticlesForInternalApi = async(callResponse, publisherRecord) =
         const { query, valueArray } = queryBuilders.generalBatchCreateQueryBuilder('articles', callResponse.data, returnValues, {'publisher_id': publisherRecord.id})
         const dbResponse = await pool.query(query, valueArray);
 
-        const cleanedApiUrl = publisherRecord.api_url.replace(/[^a-zA-Z0-9]/g, '') //remove all slashes and other characters
+        // const cleanedApiUrl = publisherRecord.api_url.replace(/[^a-zA-Z0-9]/g, '') //remove all slashes and other characters
         for (const row of dbResponse.rows){
-            await publishToTopic(cleanedApiUrl, row)
+            await publishToTopic('articles.raw', row, row.id)
         }
         
         await pool.query('COMMIT')

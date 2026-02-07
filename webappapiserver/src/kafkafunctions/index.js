@@ -1,19 +1,23 @@
 import { kafka } from "../connections/kafka.connection.js"
 
-export const publishToTopic = async (topic, message) => {
+export const publishToTopic = async (topic, message, key) => {
     const producer = kafka.producer()
 
     await producer.connect()
     await producer.send({
         topic: topic,
         messages: [
-            {value: JSON.stringify(message)} // array of objects,
-    ]})
+            {
+                key: JSON.stringify(key),
+                value: JSON.stringify(message)
+            }
+        ]
+    })
 
     return await producer.disconnect()
 }
 
-export const createKafkaTopic = async (topicConfigs, otherConfigs) =>{
+export const createKafkaTopic = async (topicConfigs, otherConfigs) => {
     const admin = kafka.admin()
 
     await admin.connect()

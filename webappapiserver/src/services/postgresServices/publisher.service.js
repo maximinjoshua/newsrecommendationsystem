@@ -29,10 +29,10 @@ const createPublishers = async(req) => {
         const dbResponse = await pool.query(query, values)
 
         // create topic for the publisher in kafka
-        const cleadedApiUrl = dbResponse.rows[0].api_url.replace(/[^a-zA-Z0-9]/g, '') //remove all slashes and other characters
-        const topicConfigs = [{ topic: cleadedApiUrl}]
-        const otherConfigs = {}
-        await createKafkaTopic(topicConfigs, otherConfigs)
+        // const cleadedApiUrl = dbResponse.rows[0].api_url.replace(/[^a-zA-Z0-9]/g, '') //remove all slashes and other characters
+        // const topicConfigs = [{ topic: cleadedApiUrl}]
+        // const otherConfigs = {}
+        // await createKafkaTopic(topicConfigs, otherConfigs)
 
         return await pool.query('COMMIT')
     }

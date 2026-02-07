@@ -12,7 +12,7 @@ const pool = new Pool({
     port: 5432,
 });
 
-export const fetchArticlesFromPublisher = async (req, res) => {
+export const fetchArticlesFromPostgres = async (req, res) => {
     try {
         const response = await pool.query(`SELECT link, headline, category, short_description, authors, date FROM articles WHERE date='${String(req.params.date)}'`)
         return res.status(200).send(response.rows)
