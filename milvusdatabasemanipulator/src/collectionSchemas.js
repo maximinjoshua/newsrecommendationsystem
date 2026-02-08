@@ -39,7 +39,7 @@ export const articleCollectionSchema = [
     {
         name: 'date',
         data_type: DataType.VarChar,
-        max_length: 10,
+        max_length: 100,
     },
     {
         name: 'created_at',
@@ -49,6 +49,7 @@ export const articleCollectionSchema = [
     {
         name: 'article_vector',
         data_type: DataType.FloatVector,
-        dim: 768,
+        dim: 384,
     },
 ];
+
