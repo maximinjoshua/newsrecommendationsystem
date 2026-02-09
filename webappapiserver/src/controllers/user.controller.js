@@ -47,7 +47,7 @@ const deleteUsers = async (req, res) => {
 
 const createUserTable = async (req, res) => {
     try{
-        const response = await service.userService.createPublisherTable()
+        const response = await service.userService.createUserTable()
         return res.status(200).send(response)
     }
     catch(error){

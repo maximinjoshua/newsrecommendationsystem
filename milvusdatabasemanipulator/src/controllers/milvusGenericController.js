@@ -1,20 +1,13 @@
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-import { articleCollectionSchema } from './collectionSchemas.js';
-import { indexParams } from './collectionIndexes.js';
-
-const client = new MilvusClient({
-    address: 'localhost:19530',
-});
-
-await client.connectPromise;
-console.log('Connected to Milvus!');
+import { controllerConfigs } from '../controllerConfigs.js';
+import { milvusClient } from '../dbconnector/milvusConnection.js';
 
 export const createMilvusCollection = async (req, res) => {
     try {
-        const response = await client.createCollection({
-            collection_name: req.body.name,
-            fields: articleCollectionSchema,
-            index_params: indexParams
+        const collectionName = req.body.name
+        const response = await milvusClient.createCollection({
+            collection_name: collectionName,
+            fields: controllerConfigs[collectionName].schema,
+            index_params: controllerConfigs[collectionName].index
         });
         return res.status(200).send(response)
     }
@@ -27,7 +20,7 @@ export const createMilvusCollection = async (req, res) => {
 export const dropMilvusCollection = async (req, res) => {
     try {
         const params = req.params
-        const response = await client.drop_collection({
+        const response = await milvusClient.drop_collection({
             collection_name: params.collection
         })
         return res.status(200).send(response)
@@ -44,7 +37,7 @@ export const getRowsFromCollection = async (req, res) => {
         await client.loadCollection({
             collection_name: params.collection,
         })
-        const response = await client.query({
+        const response = await milvusClient.query({
             collection_name: params.collection
             // output_fields: ["headline"],
             // limit: 3

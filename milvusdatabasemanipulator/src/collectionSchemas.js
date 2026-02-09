@@ -53,3 +53,42 @@ export const articleCollectionSchema = [
     },
 ];
 
+export const userCollectionSchema = [
+    {
+        name: 'id',
+        data_type: DataType.Int64,
+        is_primary_key: true,
+        autoID: true,
+    },
+    {
+        name: 'username',
+        data_type: DataType.VarChar,
+        max_length: 50,
+    },
+    {
+        name: 'password',
+        data_type: DataType.VarChar,
+        max_length: 50,
+    },
+    {
+        name: 'email',
+        data_type: DataType.VarChar,
+        max_length: 255,
+    },
+    {
+        name: 'created_at',
+        data_type: DataType.VarChar,
+        max_length: 100,
+    },
+    {
+        name: 'last_login',
+        data_type: DataType.VarChar,
+        max_length: 100,
+    },
+    {
+        name: 'user_preference_vector',
+        data_type: DataType.FloatVector,
+        dim: 384
+    }
+]
+

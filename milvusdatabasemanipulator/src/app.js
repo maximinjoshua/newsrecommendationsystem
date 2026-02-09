@@ -1,5 +1,5 @@
 import express from 'express'
-import { createMilvusCollection, dropMilvusCollection, getRowsFromCollection } from './controller.js'
+import { createMilvusCollection, dropMilvusCollection, getRowsFromCollection } from './controllers/milvusGenericController.js'
 
 const app = express()
 const router = express.Router()
