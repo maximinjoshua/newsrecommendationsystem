@@ -1,5 +1,4 @@
 from kafka import KafkaConsumer
-from sentence_transformers import SentenceTransformer
 from pymilvus import MilvusClient
 import json
 
@@ -17,6 +16,7 @@ if __name__ == "__main__":
             message_value = msg.value
             message_value_dict = json.loads(message_value.decode('utf-8'))
 
+            message_value_dict['orig_db_id'] = message_value_dict['id']
             del message_value_dict['id']
 
             res = client.insert(
