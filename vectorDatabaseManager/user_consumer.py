@@ -15,10 +15,6 @@ if __name__ == "__main__":
         for msg in consumer:
             message_value = msg.value
             message_value_dict = json.loads(message_value.decode('utf-8'))
-
-            message_value_dict['orig_db_id'] = message_value_dict['id']
-            del message_value_dict['id']
-
             res = client.insert(
                     collection_name="users",
                     data=message_value_dict

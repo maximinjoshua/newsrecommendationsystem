@@ -5,11 +5,6 @@ export const articleCollectionSchema = [
         name: 'id',
         data_type: DataType.Int64,
         is_primary_key: true,
-        autoID: true,
-    },
-    {
-        name: 'orig_db_id',
-        data_type: DataType.Int64
     },
     {
         name: 'publisher_id',
@@ -62,11 +57,6 @@ export const userCollectionSchema = [
         name: 'id',
         data_type: DataType.Int64,
         is_primary_key: true,
-        autoID: true,
-    },
-    {
-        name: 'orig_db_id',
-        data_type: DataType.Int64
     },
     {
         name: 'username',

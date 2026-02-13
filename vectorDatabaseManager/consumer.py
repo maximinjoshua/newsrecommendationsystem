@@ -26,9 +26,6 @@ if __name__ == "__main__":
             article_text_vector = model.encode(article_text)
             print(len(article_text_vector), "article text vector")
             message_value_dict['article_vector'] = article_text_vector
-            message_value_dict['orig_db_id'] = message_value_dict['id']
-
-            del message_value_dict['id']
 
             res = client.insert(
                     collection_name="articles",
