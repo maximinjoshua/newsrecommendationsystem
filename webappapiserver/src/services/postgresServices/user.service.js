@@ -70,4 +70,16 @@ const createUserTable = async (res) => {
     }
 }
 
-export const userService = { getUsers, createUsers, updateUsers, deleteUsers, createUserTable }
+const updateUserPreference = async (req) => {
+    try {
+        const message = {id: req.body.user_id, user_id: req.body.user_id, interacted_article: req.body.article_id}
+        await publishToTopic('user_preference', message, req.body.user_id)
+        return true
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export const userService = { getUsers, createUsers, updateUsers, deleteUsers, createUserTable, updateUserPreference
+ }

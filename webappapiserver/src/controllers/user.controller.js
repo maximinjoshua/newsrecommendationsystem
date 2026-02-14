@@ -56,6 +56,17 @@ const createUserTable = async (req, res) => {
     }
 }
 
+const updateUserPreference = async (req, res) => {
+    try{
+        const response = await service.userService.updateUserPreference(req)
+        return res.status(200).send(response)
+    }
+    catch(error){
+        logger.error(error)
+        res.status(500).send("Internal Server Error")
+    }
+}
+
 export const userController = { getUsers, createUsers, updateUsers,
-    deleteUsers, createUserTable
+    deleteUsers, createUserTable, updateUserPreference
  }
