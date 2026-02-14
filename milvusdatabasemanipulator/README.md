@@ -1,0 +1,1 @@
+This node server has API endpoints to manage the Milvus Database. 
