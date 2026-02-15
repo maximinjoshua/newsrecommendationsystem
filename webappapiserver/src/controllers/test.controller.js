@@ -1,4 +1,4 @@
-import { callPublisherForArticles } from "../externalapicalls/callPublishers.js"
+import { callPublisherForArticles } from "../externalapicalls/publisher.calls.js"
 import { logger } from "../helpers/logger.js"
 
 
