@@ -3,7 +3,7 @@
 Design and implement a real-time news recommendation system that recommends news articles by running a similarity search between an user's preference profile and raw text embeddings of news articles
 
 ## Architecture
-The application architecture can be demonstrated better when divided into the following parts: Data Ingestion Pipeline and The Recommendation System.
+The application architecture can be demonstrated better when divided it is into the following parts: Data Ingestion Pipeline and The Recommendation System.
 
 ### Data Ingestion Pipeline
 
