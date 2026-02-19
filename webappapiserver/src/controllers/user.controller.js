@@ -3,6 +3,11 @@ import service from "../services/index.js"
 
 const getUsers = async (req, res) => {
     try{
+        const params = req.params
+        if(params?.id){
+            const response = await service.UserService.getUsers({id: params.id})
+            return res.status(200).send(response.rows[0])
+        }
         const response = await service.UserService.getUsers()
         return res.status(200).send(response)
     }
@@ -14,7 +19,8 @@ const getUsers = async (req, res) => {
 
 const createUsers = async (req, res) => {
     try{
-        const response = await service.userService.createUsers(req)
+        const {username, password, email, last_login} = req.body
+        const response = await service.userService.createUsers({username, password, email, last_login})
         return res.status(200).send(response)
     }
     catch(error){

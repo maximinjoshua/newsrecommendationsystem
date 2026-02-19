@@ -1,6 +1,5 @@
 import pool from '../../helpers/databaseConnection.js';
 import { queryBuilders } from '../../helpers/postgresQueryBuilder.js';
-import { createKafkaTopic } from '../../kafkafunctions/index.js';
 
 const getPublishers = async(req) => {
     try{
@@ -26,13 +25,7 @@ const createPublishers = async(req) => {
     try{
         await pool.query('BEGIN')
         const { query, values } = queryBuilders.generalCreateQueryBuilder('publishers', req.body, ['api_url'])
-        const dbResponse = await pool.query(query, values)
-
-        // create topic for the publisher in kafka
-        // const cleadedApiUrl = dbResponse.rows[0].api_url.replace(/[^a-zA-Z0-9]/g, '') //remove all slashes and other characters
-        // const topicConfigs = [{ topic: cleadedApiUrl}]
-        // const otherConfigs = {}
-        // await createKafkaTopic(topicConfigs, otherConfigs)
+        await pool.query(query, values)
 
         return await pool.query('COMMIT')
     }

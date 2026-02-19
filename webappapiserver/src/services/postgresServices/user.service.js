@@ -2,9 +2,10 @@ import pool from '../../helpers/databaseConnection.js';
 import { queryBuilders } from '../../helpers/postgresQueryBuilder.js';
 import { publishToTopic } from '../../kafkafunctions/index.js';
 
-const getUsers = async (res) => {
+const getUsers = async (params) => {
     try {
-        const response = await pool.query('SELECT * FROM users');
+        const { query, values } = queryBuilders.getQueryBuilder(null , params, 'users')
+        const response = await pool.query(query, values);
         return response.rows;
     }
     catch (error) {
@@ -23,12 +24,12 @@ const updateUsers = async (req) => {
 }
 
 
-const createUsers = async (req) => {
+const createUsers = async (params) => {
     try {
         await pool.query('BEGIN')
 
         const returnValues = ['id', 'username', 'password', 'email', 'created_at', 'last_login']
-        const { query, values } = queryBuilders.generalCreateQueryBuilder('users', req.body, returnValues)
+        const { query, values } = queryBuilders.generalCreateQueryBuilder('users', params, returnValues)
         const dbResponse = await pool.query(query, values);
 
         for (const row of dbResponse.rows) {
@@ -58,8 +59,8 @@ const createUserTable = async (res) => {
     try {
         const query = `CREATE TABLE IF NOT EXISTS users 
                     (id SERIAL PRIMARY KEY,
-                    username VARCHAR (50) UNIQUE NOT NULL,
-                    password VARCHAR (50) NOT NULL,
+                    username VARCHAR (255) UNIQUE NOT NULL,
+                    password VARCHAR (255) NOT NULL,
                     email VARCHAR (255) UNIQUE NOT NULL,
                     created_at TIMESTAMP NOT NULL DEFAULT(CURRENT_TIMESTAMP),
                     last_login TIMESTAMP
