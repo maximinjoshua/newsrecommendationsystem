@@ -5,10 +5,10 @@ const getUsers = async (req, res) => {
     try{
         const params = req.params
         if(params?.id){
-            const response = await service.UserService.getUsers({id: params.id})
+            const response = await service.userService.getUsers({id: params.id})
             return res.status(200).send(response.rows[0])
         }
-        const response = await service.UserService.getUsers()
+        const response = await service.userService.getUsers()
         return res.status(200).send(response)
     }
     catch(error){
