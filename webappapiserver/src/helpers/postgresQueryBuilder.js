@@ -65,10 +65,10 @@ const generalBatchCreateQueryBuilder = (tableName, rows, returnValues = [], cust
   return { query, valueArray };
 };
 
-const getQueryBuilder = (selectColumns = null, whereConditions = null, tableName) => {
+const getQueryBuilder = (selectColumns = [], whereConditions = {}, tableName) => {
   const whereConditionArray = []
   const values = []
-  if (whereConditions) {
+  if (Object.keys(whereConditions).length !== 0) {
     let placeholder = 1
     for (const [whereKey, whereValue] of Object.entries(whereConditions)) {
       whereConditionArray.push(`${whereKey} = $${placeholder}`)
@@ -76,10 +76,11 @@ const getQueryBuilder = (selectColumns = null, whereConditions = null, tableName
       values.push(whereValue)
     }
   }
-  let query = `SELECT ${selectColumns ? selectColumns.join(',') : '*'}
+
+  let query = `SELECT ${selectColumns.length == 0 ? '*': selectColumns.join(',')}
   FROM ${tableName}`
 
-  if (whereConditions) {
+  if (whereConditionArray.length !== 0) {
     query = query + ` WHERE ${whereConditionArray.join(',')}`
   }
 

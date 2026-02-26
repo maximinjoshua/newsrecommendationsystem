@@ -21,7 +21,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const {username, password} = req.body
-        const user = await service.userService.getUsers({username: username});
+        const user = await service.userService.getUsers({whereConditions:{username: username}});
         if (!user) return res.status(404).json({ error: 'User not found' });
 
         const currentUser = user[0]

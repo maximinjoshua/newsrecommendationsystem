@@ -4,7 +4,7 @@ import { publishToTopic } from '../../kafkafunctions/index.js';
 
 const getUsers = async (params) => {
     try {
-        const { query, values } = queryBuilders.getQueryBuilder(null , params, 'users')
+        const { query, values } = queryBuilders.getQueryBuilder(params?.selectColumns , params?.whereConditions, 'users')
         const response = await pool.query(query, values);
         return response.rows;
     }
