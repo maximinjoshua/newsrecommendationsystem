@@ -1,61 +1,30 @@
-import {logger} from "../helpers/logger.js"
+import { asyncHandler } from "../helpers/asyncHandler.js"
+import { logger } from "../helpers/logger.js"
 import service from "../services/index.js"
 
-const getPublishers = async (req, res) => {
-    try{
-        const response = await service.publisherService.getPublishers()
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        return res.status(500).send("Internal Server Error")
-    }
-}
+const getPublishers = asyncHandler(async (req, res) => {
+    return await service.publisherService.getPublishers()
+})
 
-const createPublishers = async (req, res) => {
-    try{
-        const response = await service.publisherService.createPublishers(req)
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        return res.status(500).send('Internal Server Error')
-    }
-}
 
-const updatePublishers = async (req, res) => {
-    try{
-        const response = await service.publisherService.updatePublishers(req)
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        return res.status(500).send("Internal Server Error")
-    }
-}
+const createPublishers = asyncHandler(async (req, res) => {
+    return await service.publisherService.createPublishers(req)
+})
 
-const deletePublishers = async (req, res) => {
-    try{
-        const response = await service.publisherService.deletePublishers(req)
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        return res.status(500).send("Internal Server Error")
-    }
-}
 
-const createPublisherTable = async (req, res) => {
-    try{
-        const response = await service.publisherService.createPublisherTable()
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        return res.status(500).send("Internal Server Error")
-    }
-}
+const updatePublishers = asyncHandler(async (req, res) => {
+    return await service.publisherService.updatePublishers(req)
+})
 
-export const publisherController = { getPublishers, createPublishers, updatePublishers,
+const deletePublishers = asyncHandler(async (req, res) => {
+    return await service.publisherService.deletePublishers(req) 
+})
+
+const createPublisherTable = asyncHandler(async (req, res) => {
+    return await service.publisherService.createPublisherTable()
+})
+
+export const publisherController = {
+    getPublishers, createPublishers, updatePublishers,
     deletePublishers, createPublisherTable
- }
+}

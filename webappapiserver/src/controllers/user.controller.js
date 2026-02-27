@@ -1,74 +1,35 @@
+import { asyncHandler } from "../helpers/asyncHandler.js"
 import {logger} from "../helpers/logger.js"
 import service from "../services/index.js"
 
-const getUsers = async (req, res) => {
-    try{
-        const {selectColumns, whereConditions} = req.params
-        const response = await service.userService.getUsers({selectConditons: selectColumns, whereConditions: whereConditions})
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
-    }
-}
+const getUsers = asyncHandler(async (req, res) => {
+    const {selectColumns, whereConditions} = req.params
+    return await service.userService.getUsers({selectConditons: selectColumns, whereConditions: whereConditions})
+})
 
-const createUsers = async (req, res) => {
-    try{
-        const {username, password, email, last_login} = req.body
-        const response = await service.userService.createUsers({username, password, email, last_login})
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        res.status(500).send('Internal Server Error')
-    }
-}
+const createUsers = asyncHandler(async (req, res) => {
+    const {username, password, email, last_login} = req.body
+    return await service.userService.createUsers({username, password, email, last_login})
+})
 
-const updateUsers = async (req, res) => {
-    try{
-        const response = await service.userService.updateUsers(req)
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
-    }
-}
+const updateUsers = asyncHandler(async (req, res) => {
+    return await service.userService.updateUsers(req)
+})
 
-const deleteUsers = async (req, res) => {
-    try{
-        const response = await service.userService.deleteUsers(req)
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
-    }
-}
+const deleteUsers = asyncHandler(async (req, res) => {
+    return await service.userService.deleteUsers(req)
+})
 
-const createUserTable = async (req, res) => {
-    try{
-        const response = await service.userService.createUserTable()
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
-    }
-}
+const createUserTable = asyncHandler(async (req, res) => {
+        return await service.userService.createUserTable()
+})
 
-const updateUserPreference = async (req, res) => {
-    try{
-        const response = await service.userService.updateUserPreference(req)
-        return res.status(200).send(response)
-    }
-    catch(error){
-        logger.error(error)
-        res.status(500).send("Internal Server Error")
-    }
-}
+const updateUserPreference = asyncHandler(async (req, res) => {
+    return await service.userService.updateUserPreference(req)
+})
 
 export const userController = { getUsers, createUsers, updateUsers,
     deleteUsers, createUserTable, updateUserPreference
  }
+
+//  logger.error(error)
