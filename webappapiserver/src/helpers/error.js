@@ -1,10 +1,10 @@
 class CustomErrors extends Error {
-    constructor({message, code}) {
+    constructor(message, code) {
         super()
-        this.message = message
-        this.code = code
+        this.statusMessage = message
+        this.statusCode = code
     }
 }
 
-export class NotFoundError extends CustomErrors{}
-export class AuthError extends CustomErrors{}
+export class NotFoundError extends CustomErrors { }
+export class AuthError extends CustomErrors { }
