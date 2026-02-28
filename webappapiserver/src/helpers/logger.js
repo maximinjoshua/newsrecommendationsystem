@@ -5,3 +5,8 @@ export const logger =  pino({
     target: 'pino-pretty'
   },
 });
+
+export const logError = (err, req, res, next) => {
+   logger.error(err)
+   next(err)
+}
