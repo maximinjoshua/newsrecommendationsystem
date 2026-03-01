@@ -1,31 +1,31 @@
 import { asyncHandler } from "../helpers/asyncHandler.js"
-import { AuthError, NotFoundError } from "../helpers/error.js"
-import { logger } from "../helpers/logger.js"
+import { CustomError } from "../helpers/error.js"
 import service from "../services/index.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 const register = asyncHandler(async (req, res) => {
 
-    const { username, password, email, last_login } = req.body
+    const { first_name, last_name, password, email, last_login } = req.body
 
     // hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await service.userService.createUsers({ username, password: hashedPassword, email, last_login })
+    return await service.userService.createUsers({ first_name, last_name, password: hashedPassword, email, last_login })
 })
 
 const login = asyncHandler(async (req, res) => {
 
-    const { username, password } = req.body
-    const user = await service.userService.getUsers({ whereConditions: { username: username } });
-    if  (!user) throw new NotFoundError("User not found", 404)
+    const { email, password } = req.body
+    const user = await service.userService.getUsers({ whereConditions: { email: email } });
+    if  (user.length==0) throw new CustomError("User not found", 404)
+    if (user.length > 1) throw new CustomError("More than one record found for user", 500)
 
     const currentUser = user[0]
     const isMatch = await bcrypt.compare(password, currentUser.password);
-    if (!isMatch) throw new AuthError("Invalid Credentials", 401)
+    if (!isMatch) throw new CustomError("Invalid Credentials", 401)
 
     const token = jwt.sign({ userId: currentUser.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return token
+    return {"token": token}
 })
 
 export const authController = { register, login }

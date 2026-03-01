@@ -28,7 +28,7 @@ const createUsers = async (params) => {
     try {
         await pool.query('BEGIN')
 
-        const returnValues = ['id', 'username', 'password', 'email', 'created_at', 'last_login']
+        const returnValues = ['id', 'first_name', 'last_name', 'password', 'email', 'created_at', 'last_login']
         const { query, values } = queryBuilders.generalCreateQueryBuilder('users', params, returnValues)
         const dbResponse = await pool.query(query, values);
 

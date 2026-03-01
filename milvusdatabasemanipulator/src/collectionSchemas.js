@@ -59,14 +59,19 @@ export const userCollectionSchema = [
         is_primary_key: true,
     },
     {
-        name: 'username',
+        name: 'first_name',
         data_type: DataType.VarChar,
-        max_length: 50,
+        max_length: 255,
+    },
+    {
+        name: 'last_name',
+        data_type: DataType.VarChar,
+        max_length: 255,
     },
     {
         name: 'password',
         data_type: DataType.VarChar,
-        max_length: 50,
+        max_length: 255,
     },
     {
         name: 'email',

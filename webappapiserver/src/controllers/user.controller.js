@@ -8,8 +8,8 @@ const getUsers = asyncHandler(async (req, res) => {
 })
 
 const createUsers = asyncHandler(async (req, res) => {
-    const {username, password, email, last_login} = req.body
-    return await service.userService.createUsers({username, password, email, last_login})
+    const {first_name, last_name, password, email, last_login} = req.body
+    return await service.userService.createUsers({first_name, last_name, password, email, last_login})
 })
 
 const updateUsers = asyncHandler(async (req, res) => {
@@ -31,5 +31,3 @@ const updateUserPreference = asyncHandler(async (req, res) => {
 export const userController = { getUsers, createUsers, updateUsers,
     deleteUsers, createUserTable, updateUserPreference
  }
-
-//  logger.error(error)
