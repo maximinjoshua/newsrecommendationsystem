@@ -6,11 +6,14 @@ import jwt from 'jsonwebtoken'
 
 const register = asyncHandler(async (req, res) => {
 
-    const { first_name, last_name, password, email, last_login } = req.body
+    const { firstName: first_name, lastName: last_name, password, email } = req.body
+
+    const currentDate = new Date();
+    const isoDate = currentDate.toISOString().split('T')[0];
 
     // hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await service.userService.createUsers({ first_name, last_name, password: hashedPassword, email, last_login })
+    return await service.userService.createUsers({ first_name, last_name, password: hashedPassword, email, last_login: isoDate })
 })
 
 const login = asyncHandler(async (req, res) => {
