@@ -4,6 +4,7 @@ import SignUp from "./containers/Signup/SignUp";
 import SignIn from "./containers/Signin/SignIn";
 import { ProtectedLayout } from "./layouts/protectedLayout";
 import {PublicLayout} from "./layouts/publicLayout"
+import PublisherRegister from "./containers/Publishers/PublisherRegister";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
     children:[
       {path: 'sign-up', Component: SignUp},
       {path: 'sign-in', Component: SignIn},
+      {path: 'addpublisher', Component: PublisherRegister}
     ]
 
   }

@@ -21,10 +21,10 @@ const updatePublishers = async(req) => {
     }
 }
 
-const createPublishers = async(req) => {
+const createPublishers = async(params) => {
     try{
         await pool.query('BEGIN')
-        const { query, values } = queryBuilders.generalCreateQueryBuilder('publishers', req.body, ['api_url'])
+        const { query, values } = queryBuilders.generalCreateQueryBuilder('publishers', params, ['api_url'])
         await pool.query(query, values)
 
         return await pool.query('COMMIT')

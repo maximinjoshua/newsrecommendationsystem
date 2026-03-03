@@ -8,7 +8,8 @@ const getPublishers = asyncHandler(async (req, res) => {
 
 
 const createPublishers = asyncHandler(async (req, res) => {
-    return await service.publisherService.createPublishers(req)
+    const {name, url} = req.body
+    return await service.publisherService.createPublishers({name:name, api_url: url})
 })
 
 
