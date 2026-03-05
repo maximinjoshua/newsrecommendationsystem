@@ -17,7 +17,7 @@ import ForgotPassword from './components/ForgotPassword';
 import AppTheme from '../../theme/AppTheme';
 import ColorModeSelect from '../../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
-import { post } from '../../services/apiClient';
+import { post } from '../../services/apiClientUnauth';
 import {useNavigate} from 'react-router'
 
 const Card = styled(MuiCard)(({ theme }) => ({
