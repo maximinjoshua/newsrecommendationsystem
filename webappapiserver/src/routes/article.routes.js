@@ -9,5 +9,6 @@ router.post('/insert-batch', articleController.createBatchArticles)
 router.post('/update', articleController.updateArticles)
 router.delete('/delete/:id', articleController.deleteArticles)
 router.post('/create-table', articleController.createArticleTable)
+router.get('/get-recommendations', articleController.getRecommendedArticles)
 
 export const articleRouter = router

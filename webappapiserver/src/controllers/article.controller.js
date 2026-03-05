@@ -1,3 +1,4 @@
+import { fetchRecommendations } from "../externalapicalls/milvus.calls.js"
 import { asyncHandler } from "../helpers/asyncHandler.js"
 import { logger } from "../helpers/logger.js"
 import service from "../services/index.js"
@@ -27,7 +28,12 @@ const createArticleTable = asyncHandler(async (req, res) => {
     return await service.articleService.createArticleTable()
 })
 
+const getRecommendedArticles = asyncHandler(async (req, res) => {
+    const userId = req.auth.userId
+    return await fetchRecommendations(userId)
+})
+
 export const articleController = {
     getArticles, createArticles, updateArticles,
-    deleteArticles, createArticleTable, createBatchArticles
+    deleteArticles, createArticleTable, createBatchArticles, getRecommendedArticles
 }

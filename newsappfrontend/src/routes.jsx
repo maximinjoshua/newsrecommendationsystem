@@ -5,10 +5,12 @@ import SignIn from "./containers/Signin/SignIn";
 import { ProtectedLayout } from "./layouts/protectedLayout";
 import {PublicLayout} from "./layouts/publicLayout"
 import PublisherRegister from "./containers/Publishers/PublisherRegister";
+import { loadRecommendedArticles } from "./loaders";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    loader: async() => {return await loadRecommendedArticles()},
     Component: ProtectedLayout,
     children: [
       {index: true, Component: Blog},

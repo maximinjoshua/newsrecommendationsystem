@@ -1,7 +1,10 @@
-import { Outlet } from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 
 export const ProtectedLayout = () => {
+
+    const loaderData = useLoaderData()
+
     return (<>
-        <Outlet/>
+        <Outlet context={{loaderData}}/>
     </>)
 }
