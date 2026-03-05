@@ -1,38 +1,26 @@
 import { controllerConfigs } from '../controllerConfigs.js';
 import { milvusClient } from '../dbconnector/milvusConnection.js';
+import { asyncHandler } from '../helpers/asynchandler.js';
 
-export const createMilvusCollection = async (req, res) => {
-    try {
+export const createMilvusCollection = asyncHandler(async (req, res) => {
         const collectionName = req.body.name
         const response = await milvusClient.createCollection({
             collection_name: collectionName,
             fields: controllerConfigs[collectionName].schema,
             index_params: controllerConfigs[collectionName].index
         });
-        return res.status(200).send(response)
-    }
-    catch (error) {
-        console.log(error)
-        return res.status(500).send("Internal Server Error")
-    }
-}
+        return response
+    })
 
-export const dropMilvusCollection = async (req, res) => {
-    try {
+export const dropMilvusCollection = asyncHandler(async (req, res) => {
         const params = req.params
         const response = await milvusClient.drop_collection({
             collection_name: params.collection
         })
-        return res.status(200).send(response)
-    }
-    catch (error) {
-        console.log(error)
-        return res.status(500).send("Internal Server Error")
-    }
-}
+        return response
+})
 
-export const getRowsFromCollection = async (req, res) => {
-    try {
+export const getRowsFromCollection = asyncHandler(async (req, res) => {
         const params = req.params
         await client.loadCollection({
             collection_name: params.collection,
@@ -43,10 +31,5 @@ export const getRowsFromCollection = async (req, res) => {
             // limit: 3
         })
 
-        return res.status(200).send(response)
-    }
-    catch (error) {
-        console.log(error)
-        return res.status(500).send("Internal Server Error")
-    }
-}
+        return response
+})

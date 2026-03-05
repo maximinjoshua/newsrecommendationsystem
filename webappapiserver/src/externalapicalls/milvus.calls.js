@@ -1,11 +1,14 @@
 import axios from 'axios'
+import { ExternalAppError } from '../helpers/error.js'
 
-export const fetchRecommmendedArticles = async (user_id) =>{
+const baseURL = process.env.MILVUS_SERVER_URL
+
+export const fetchRecommendations = async (userId) =>{
     try{
-        const response = await axios.get(`${row.api_url}${currentDate}`)
-        await service.articleService.createBatchArticlesForInternalApi(response, row)
+        const response = await axios.get(`${baseURL}/get-recommendations/${userId}`)
+        return response.data
     }
     catch(error){
-        throw error
+        throw new ExternalAppError(error?.response?.data?.message, 502)
     }
 }
