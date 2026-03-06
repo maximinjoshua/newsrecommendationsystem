@@ -71,10 +71,10 @@ const createUserTable = async (res) => {
     }
 }
 
-const updateUserPreference = async (req) => {
+const updateUserPreference = async (params) => {
     try {
-        const message = {id: req.body.user_id, user_id: req.body.user_id, interacted_article: req.body.article_id}
-        await publishToTopic('user_preference', message, req.body.user_id)
+        const message = {id: params.userId, user_id: params.userId, interacted_article: params.articleId}
+        await publishToTopic('user_preference', message, params.user_id)
         return true
     }
     catch (error) {

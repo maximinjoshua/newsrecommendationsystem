@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../../theme/ColorModeIconDropdown';
 import Sitemark from './SitemarkIcon';
+import { useNavigate } from 'react-router';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -33,9 +34,19 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
 
+  const navigate = useNavigate()
+
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+
+  const handleSignIn = () =>{
+    navigate('/sign-in')
+  }
+
+  const handleSignUp = () =>{
+    navigate('/sign-up')
+  }
 
   return (
     <AppBar
@@ -50,7 +61,7 @@ export default function AppAppBar() {
     >
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
+          {/* <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <Sitemark />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button variant="text" color="info" size="small">
@@ -72,7 +83,7 @@ export default function AppAppBar() {
                 Blog
               </Button>
             </Box>
-          </Box>
+          </Box> */}
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
@@ -80,59 +91,13 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
+            <Button onClick={handleSignIn} color="primary" variant="text" size="small">
               Sign in
             </Button>
-            <Button color="primary" variant="contained" size="small">
+            <Button onClick={handleSignUp} color="primary" variant="contained" size="small">
               Sign up
             </Button>
             <ColorModeIconDropdown />
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
-            <ColorModeIconDropdown size="medium" />
-            <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
-              <MenuIcon />
-            </IconButton>
-            <Drawer
-              anchor="top"
-              open={open}
-              onClose={toggleDrawer(false)}
-              PaperProps={{
-                sx: {
-                  top: 'var(--template-frame-height, 0px)',
-                },
-              }}
-            >
-              <Box sx={{ p: 2, backgroundColor: 'background.default' }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <IconButton onClick={toggleDrawer(false)}>
-                    <CloseRoundedIcon />
-                  </IconButton>
-                </Box>
-                <MenuItem>Features</MenuItem>
-                <MenuItem>Testimonials</MenuItem>
-                <MenuItem>Highlights</MenuItem>
-                <MenuItem>Pricing</MenuItem>
-                <MenuItem>FAQ</MenuItem>
-                <MenuItem>Blog</MenuItem>
-                <Divider sx={{ my: 3 }} />
-                <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
-                    Sign in
-                  </Button>
-                </MenuItem>
-              </Box>
-            </Drawer>
           </Box>
         </StyledToolbar>
       </Container>

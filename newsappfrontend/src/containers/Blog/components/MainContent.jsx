@@ -16,6 +16,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import { styled } from '@mui/material/styles';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded';
+import { post } from '../../../services/apiClient';
 
 const cardData = [
   {
@@ -175,7 +176,7 @@ export function Search() {
 }
 
 export default function MainContent(props) {
-  const {data} = props
+  const { data } = props
   const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
 
   const handleFocus = (index) => {
@@ -188,6 +189,14 @@ export default function MainContent(props) {
 
   const handleClick = () => {
     console.info('You clicked the filter chip.');
+  };
+
+  const handleCardClick = async (link, id) => {
+    const newTab = window.open("", "_blank");
+
+    await post("/users/update-preference", { articleId: id });
+
+    newTab.location.href = link;
   };
 
   return (
@@ -285,42 +294,40 @@ export default function MainContent(props) {
         </Box>
       </Box>
       <Grid container spacing={2} columns={12}>
-        {data.map((item, index)=>(
+        {data.map((item, index) => (
           <Grid size={{ xs: 12, md: 6 }}>
-          <StyledCard
-            variant="outlined"
-            onFocus={() => handleFocus(0)}
-            onBlur={handleBlur}
-            tabIndex={0}
-            className={focusedCardIndex === 0 ? 'Mui-focused' : ''}
-            component="a"
-            href={item.link}
-            target="_blank"
-          >
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              image={cardData[0].img}
-              sx={{
-                aspectRatio: '16 / 9',
-                borderBottom: '1px solid',
-                borderColor: 'divider',
-              }}
-            />
-            <StyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
-                {item.category}
-              </Typography>
-              <Typography gutterBottom variant="h6" component="div">
-                {item.headline}
-              </Typography>
-              <StyledTypography variant="body2" color="text.secondary" gutterBottom>
-                {item.short_description}
-              </StyledTypography>
-            </StyledCardContent>
-            <Author authors={item.authors.split(',')} />
-          </StyledCard>
-        </Grid>
+            <StyledCard
+              variant="outlined"
+              onFocus={() => handleFocus(0)}
+              onBlur={handleBlur}
+              tabIndex={0}
+              className={focusedCardIndex === 0 ? 'Mui-focused' : ''}
+              onClick={() => handleCardClick(item.link, item.id)}
+            >
+              <CardMedia
+                component="img"
+                alt="green iguana"
+                image={cardData[0].img}
+                sx={{
+                  aspectRatio: '16 / 9',
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                }}
+              />
+              <StyledCardContent>
+                <Typography gutterBottom variant="caption" component="div">
+                  {item.category}
+                </Typography>
+                <Typography gutterBottom variant="h6" component="div">
+                  {item.headline}
+                </Typography>
+                <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                  {item.short_description}
+                </StyledTypography>
+              </StyledCardContent>
+              <Author authors={item.authors.split(',')} />
+            </StyledCard>
+          </Grid>
         ))}
       </Grid>
     </Box>

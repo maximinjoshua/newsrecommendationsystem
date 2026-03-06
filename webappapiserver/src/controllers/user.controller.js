@@ -25,7 +25,9 @@ const createUserTable = asyncHandler(async (req, res) => {
 })
 
 const updateUserPreference = asyncHandler(async (req, res) => {
-    return await service.userService.updateUserPreference(req)
+    const {articleId} = req.body
+    const userId = req.auth.userId
+    return await service.userService.updateUserPreference({userId, articleId})
 })
 
 export const userController = { getUsers, createUsers, updateUsers,

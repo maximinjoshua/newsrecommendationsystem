@@ -1,4 +1,3 @@
-import axios from "axios"
 import { get } from "./services/apiClient"
 
 export const loadRecommendedArticles = async () => {
