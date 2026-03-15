@@ -1,0 +1,34 @@
+// src/api/axiosClient.js
+import axios from 'axios';
+
+const token = localStorage.getItem("token");
+
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_API_SERVER_URL, // adjust if your backend runs elsewhere
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+});
+
+// Global GET function
+export const get = async (url) => {
+  try {
+    const response = await axiosInstance.get(url);
+    return response.data;
+  } catch (error) {
+    console.error('GET error:', error);
+    throw error;
+  }
+};
+
+// Global POST function
+export const post = async (url, data) => {
+  try {
+    const response = await axiosInstance.post(url, data);
+    return response.data;
+  } catch (error) {
+    console.error('POST error:', error);
+    throw error;
+  }
+};
