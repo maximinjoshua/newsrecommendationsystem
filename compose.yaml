@@ -1,0 +1,64 @@
+services:
+  backend:
+    build:
+      context: ./
+      target: backend-dev
+    env_file: "backend/src/.dockerenv"
+    ports:
+      - "3000:3000"
+    develop:
+      watch:
+        - path: ./backend/src
+          action: sync
+          target: /usr/local/app/src
+        - path: ./backend/package.json
+          action: rebuild
+
+  frontend:
+    build:
+      context: ./
+      target: frontend-dev
+    ports:
+      - "5173:5173"
+    develop:
+      watch:
+        - path: ./frontend/src
+          action: sync
+          target: /usr/local/app/src
+        - path: ./frontend/package.json
+          action: rebuild
+  
+  dummy-news-publisher-server:
+    build:
+      context: ./
+      target: dummy-news-publisher-base
+    env_file: "dummy-news-publisher-server/.dockerenv"
+    ports:
+      - "3001:3001"
+    develop:
+      watch:
+        - path: ./dummy-news-publisher-server/src
+          action: sync
+          target: /usr/local/app/src
+        - path: ./dummy-news-publisher-server/package.json
+          action: rebuild
+
+  milvus-vector-database-access-server:
+    build:
+      context: ./
+      target: milvus-vector-database-access-server-base
+    ports:
+      - "3002:3002"
+    env_file: "milvus-vector-database-access-server/src/.dockerenv"
+    develop:
+      watch:
+        - path: ./milvus-vector-database-access-server/src
+          action: sync
+          target: /usr/local/app/src
+        - path: ./milvus-vector-database-access-server/package.json
+          action: rebuild
+
+  kafka-consumers:
+    build:
+      context: ./
+      target: kafka-python

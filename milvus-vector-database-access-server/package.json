@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.js",
-    "start": "node src/app.js"
+    "dev": "nodemon --env-file=src/.env src/app.js",
+    "start": "node src/app.js",
+
+    "docker-dev": "nodemon src/app.js"
+
   },
   "keywords": [],
   "author": "",
